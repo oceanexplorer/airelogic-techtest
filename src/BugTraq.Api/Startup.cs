@@ -28,6 +28,7 @@ namespace BugTraq.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddCors();
 
             var connection = "Data Source=bugs.db";
             services.AddDbContext<BugTraqContext>(options => options.UseSqlite(connection));
@@ -46,7 +47,8 @@ namespace BugTraq.Api
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
+            app.UseCors(builder => builder.WithOrigins("http://localhost:3000").AllowAnyMethod());
             app.UseMvc();
         }
     }
