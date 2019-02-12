@@ -1,6 +1,7 @@
 using System;
 using BugTraq.Api.EntityConfiguration;
 using Microsoft.EntityFrameworkCore;
+using BugTraq.Api.Models;
 
 namespace BugTraq.Api.Models
 {
@@ -40,5 +41,7 @@ namespace BugTraq.Api.Models
 
             modelBuilder.Entity<User>().HasData(new User { UserId = 1, FirstName = "Jeff", Surname = "Simms" });
         }
+
+        public DbSet<BugTraq.Api.Models.User> User { get; set; }
     }
 }
