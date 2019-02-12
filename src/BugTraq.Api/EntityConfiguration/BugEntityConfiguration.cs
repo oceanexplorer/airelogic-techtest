@@ -9,7 +9,9 @@ namespace BugTraq.Api.EntityConfiguration
         public void Configure(EntityTypeBuilder<Bug> bug)
         {
             bug.HasKey(b => b.BugId);
-            bug.HasOne(b => b.User);
+            bug.HasOne(b => b.User)
+                .WithMany(u => u.Bugs)
+                .HasForeignKey(e => e.UserId);
 
             bug.Property(b => b.Title)
                 .HasMaxLength(75)

@@ -3,14 +3,16 @@ using System;
 using BugTraq.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BugTraq.Api.Migrations
 {
     [DbContext(typeof(BugTraqContext))]
-    partial class BugTraqContextModelSnapshot : ModelSnapshot
+    [Migration("20190212230936_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -8,6 +8,7 @@ namespace BugTraq.Api.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<User> user)
         {
+            user.ToTable("Users");
             user.HasKey(u => u.UserId);
             user.HasMany(u => u.Bugs);
 

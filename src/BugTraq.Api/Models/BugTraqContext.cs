@@ -1,9 +1,8 @@
 using System;
-using System.Collections.Generic;
 using BugTraq.Api.EntityConfiguration;
 using Microsoft.EntityFrameworkCore;
 
-namespace BugTraq.Api.Models 
+namespace BugTraq.Api.Models
 {
     public class BugTraqContext : DbContext
     {
@@ -18,27 +17,28 @@ namespace BugTraq.Api.Models
         {
             modelBuilder.ApplyConfiguration(new BugEntityConfiguration());
             modelBuilder.ApplyConfiguration(new UserEntityConfiguration());
+            
+            modelBuilder.Entity<Bug>().HasData(new Bug
+            { 
+                BugId = 1,
+                Title = "First Bug", 
+                Description = "This is our first bug!", 
+                CreatedDate = DateTime.Now,
+                Status = "Open",
+                UserId = 1
+            });
+
+            modelBuilder.Entity<Bug>().HasData(new Bug
+            { 
+                BugId = 2,
+                Title = "Second Bud", 
+                Description = "This is our second bug!", 
+                CreatedDate = DateTime.Now,
+                Status = "Open",
+                UserId = 1
+            });
+
+            modelBuilder.Entity<User>().HasData(new User { UserId = 1, FirstName = "Jeff", Surname = "Simms" });
         }
-    }
-
-    public class Bug
-    {
-        public int BugId { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public string Status { get; set; } 
-
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
-    }
-
-    public class User
-    {
-        public int UserId { get; set;}
-        public string FirstName { get; set; }
-        public string Surname { get; set; }
-        
-        public virtual List<Bug> Bugs { get; set; }
     }
 }
