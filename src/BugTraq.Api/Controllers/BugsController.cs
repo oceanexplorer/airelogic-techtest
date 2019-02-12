@@ -2,14 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BugTraq.Api.Models;
 
 namespace BugTraq.Api.Controllers
 {
-    public class BugsController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class BugsController : ControllerBase
     {
         private readonly BugTraqContext _context;
 
@@ -19,141 +21,80 @@ namespace BugTraq.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult<IEnumerable<Bug>>> GetBugs()
         {
-            var bugTraqContext = _context.Bugs.Include(b => b.User);
-            return Ok(await bugTraqContext.ToListAsync());
+            return await _context.Bugs.ToListAsync();
         }
 
-        // // GET: Bugs/Details/5
-        // public async Task<IActionResult> Details(int? id)
-        // {
-        //     if (id == null)
-        //     {
-        //         return NotFound();
-        //     }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Bug>> GetBug(int id)
+        {
+            var bug = await _context.Bugs.FindAsync(id);
 
-        //     var bug = await _context.Bugs
-        //         .Include(b => b.User)
-        //         .FirstOrDefaultAsync(m => m.BugId == id);
-        //     if (bug == null)
-        //     {
-        //         return NotFound();
-        //     }
+            if (bug == null)
+            {
+                return NotFound();
+            }
 
-        //     return View(bug);
-        // }
+            return bug;
+        }
 
-        // // GET: Bugs/Create
-        // public IActionResult Create()
-        // {
-        //     ViewData["UserId"] = new SelectList(_context.Set<User>(), "UserId", "UserId");
-        //     return View();
-        // }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutBug(int id, Bug bug)
+        {
+            if (id != bug.BugId)
+            {
+                return BadRequest();
+            }
 
-        // // POST: Bugs/Create
-        // // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // [HttpPost]
-        // [ValidateAntiForgeryToken]
-        // public async Task<IActionResult> Create([Bind("BugId,Title,Description,CreatedDate,Status,UserId")] Bug bug)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         _context.Add(bug);
-        //         await _context.SaveChangesAsync();
-        //         return RedirectToAction(nameof(Index));
-        //     }
-        //     ViewData["UserId"] = new SelectList(_context.Set<User>(), "UserId", "UserId", bug.UserId);
-        //     return View(bug);
-        // }
+            _context.Entry(bug).State = EntityState.Modified;
 
-        // // GET: Bugs/Edit/5
-        // public async Task<IActionResult> Edit(int? id)
-        // {
-        //     if (id == null)
-        //     {
-        //         return NotFound();
-        //     }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BugExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-        //     var bug = await _context.Bugs.FindAsync(id);
-        //     if (bug == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     ViewData["UserId"] = new SelectList(_context.Set<User>(), "UserId", "UserId", bug.UserId);
-        //     return View(bug);
-        // }
+            return NoContent();
+        }
 
-        // // POST: Bugs/Edit/5
-        // // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // [HttpPost]
-        // [ValidateAntiForgeryToken]
-        // public async Task<IActionResult> Edit(int id, [Bind("BugId,Title,Description,CreatedDate,Status,UserId")] Bug bug)
-        // {
-        //     if (id != bug.BugId)
-        //     {
-        //         return NotFound();
-        //     }
+        [HttpPost]
+        public async Task<ActionResult<Bug>> PostBug(Bug bug)
+        {
+            _context.Bugs.Add(bug);
+            await _context.SaveChangesAsync();
 
-        //     if (ModelState.IsValid)
-        //     {
-        //         try
-        //         {
-        //             _context.Update(bug);
-        //             await _context.SaveChangesAsync();
-        //         }
-        //         catch (DbUpdateConcurrencyException)
-        //         {
-        //             if (!BugExists(bug.BugId))
-        //             {
-        //                 return NotFound();
-        //             }
-        //             else
-        //             {
-        //                 throw;
-        //             }
-        //         }
-        //         return RedirectToAction(nameof(Index));
-        //     }
-        //     ViewData["UserId"] = new SelectList(_context.Set<User>(), "UserId", "UserId", bug.UserId);
-        //     return View(bug);
-        // }
+            return CreatedAtAction("GetBug", new { id = bug.BugId }, bug);
+        }
 
-        // // GET: Bugs/Delete/5
-        // public async Task<IActionResult> Delete(int? id)
-        // {
-        //     if (id == null)
-        //     {
-        //         return NotFound();
-        //     }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Bug>> DeleteBug(int id)
+        {
+            var bug = await _context.Bugs.FindAsync(id);
+            if (bug == null)
+            {
+                return NotFound();
+            }
 
-        //     var bug = await _context.Bugs
-        //         .Include(b => b.User)
-        //         .FirstOrDefaultAsync(m => m.BugId == id);
-        //     if (bug == null)
-        //     {
-        //         return NotFound();
-        //     }
+            _context.Bugs.Remove(bug);
+            await _context.SaveChangesAsync();
 
-        //     return View(bug);
-        // }
+            return bug;
+        }
 
-        // // POST: Bugs/Delete/5
-        // [HttpPost, ActionName("Delete")]
-        // [ValidateAntiForgeryToken]
-        // public async Task<IActionResult> DeleteConfirmed(int id)
-        // {
-        //     var bug = await _context.Bugs.FindAsync(id);
-        //     _context.Bugs.Remove(bug);
-        //     await _context.SaveChangesAsync();
-        //     return RedirectToAction(nameof(Index));
-        // }
-
-        // private bool BugExists(int id)
-        // {
-        //     return _context.Bugs.Any(e => e.BugId == id);
-        // }
+        private bool BugExists(int id)
+        {
+            return _context.Bugs.Any(e => e.BugId == id);
+        }
     }
 }
