@@ -61,49 +61,91 @@
             </div>
         </div>
       </div>
-    </div>
-    <!-- Add Bug Modal -->     
-    </div>
-    <div class="modal fade" id="newBugModal" tabindex="-1" role="dialog" aria-labelledby="newBugModalTitle" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="newBugModalTitle">Add Bug</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-              <div id="addBugAlertRow" class=row></div>
-            <form id="newBugForm">
-              <div class="form-group row">
-                <label for="newBugTitle" class="col-sm-3 col-form-label">Title</label>
-                <div class="col-sm-9">
-                  <input name=title type="text" class="form-control" id="newBugTitle" placeholder="Title" required>
-                </div>
+    </div>       
+  </div>
+  <!-- Add Bug Modal -->  
+  <div class="modal fade" id="newBugModal" tabindex="-1" role="dialog" aria-labelledby="newBugModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newBugModalTitle">Add Bug</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div id="addBugAlertRow" class=row></div>
+          <form id="newBugForm">
+            <div class="form-group row">
+              <label for="newBugTitle" class="col-sm-3 col-form-label">Title</label>
+              <div class="col-sm-9">
+                <input name=title type="text" class="form-control" id="newBugTitle" placeholder="Title" required>
               </div>
-              <div class="form-group row">
-                <label for="newBugDescription" class="col-sm-3 col-form-label">Description</label>
-                <div class="col-sm-9">
-                  <input name=description type="text" class="form-control" id="newBugDescription" placeholder="Description" required>
-                </div>
+            </div>
+            <div class="form-group row">
+              <label for="newBugDescription" class="col-sm-3 col-form-label">Description</label>
+              <div class="col-sm-9">
+                <input name=description type="text" class="form-control" id="newBugDescription" placeholder="Description" required>
               </div>
-              <div class="form-group row">
-                <label for="newBugUserDropdown" class="col-sm-3 col-form-label">Assigned To</label>
-                <div class="col-sm-9">
-                  <select name=userId class="form-control" id="newBugUserDropdown" required></select>
-                </div>
-              </div>             
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="addBugButton" type="button" class="btn btn-primary">Add</button>
-          </div>
+            </div>
+            <div class="form-group row">
+              <label for="newBugUserDropdown" class="col-sm-3 col-form-label">Assigned To</label>
+              <div class="col-sm-9">
+                <select name=userId class="form-control" id="newBugUserDropdown" required></select>
+              </div>
+            </div>             
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button id="addBugButton" type="button" class="btn btn-primary">Add</button>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Edit Bug Modal -->     
+<div class="modal fade" id="editBugModal" tabindex="-1" role="dialog" aria-labelledby="editBugModalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editBugModalTitle">Edit Bug</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div id="editBugAlertRow" class=row></div>
+        <form id="editBugForm">
+          <input id="editBugId" type="hidden" name="bugId">
+          <div class="form-group row">            
+            <label for="editBugTitle" class="col-sm-3 col-form-label">Title</label>
+            <div class="col-sm-9">
+              <input name=title type="text" class="form-control" id="editBugTitle" placeholder="Title" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="editBugDescription" class="col-sm-3 col-form-label">Description</label>
+            <div class="col-sm-9">
+              <input name=description type="text" class="form-control" id="editBugDescription" placeholder="Description" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="editBugUserDropdown" class="col-sm-3 col-form-label">Assigned To</label>
+            <div class="col-sm-9">
+              <select name=userId class="form-control" id="editBugUserDropdown" required></select>
+            </div>
+          </div>             
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="updateBugButton" type="button" class="btn btn-primary">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>

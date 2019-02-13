@@ -9,22 +9,33 @@ var bugTraqHomeModule = (function($) {
     var editBugButton = '#editBugButton';
     var deleteBugButton = '#deleteBugButton';
     var addBugButton = '#addBugButton';
+    var updateBugButton = '#updateBugButton';
 
     // Dropdowns
     var newBugUserDropdown = '#newBugUserDropdown';
+    var editBugUserDropdown = '#editBugUserDropdown';
 
     // Forms
     var newBugForm = '#newBugForm';
 
+    // Hidden Fields
+    var editBugId = '#editBugId';
+
     // Layout
     var alertsRow = '#alertsRow';
     var addBugAlertRow = '#addBugAlertRow';
+    var editBugAlertRow = '#editBugAlertRow';
 
     // Modals
     var newBugModal = '#newBugModal';
+    var editBugModal = '#editBugModal';
 
     // Tables
     var openBugsTable  = '#openBugsTable';
+
+    // Textboxes
+    var editBugTitle = '#editBugTitle';
+    var editBugDescription = '#editBugDescription';
 
 
     var init = function() {
@@ -64,6 +75,55 @@ var bugTraqHomeModule = (function($) {
         });
     }
 
+    var _openEditBugModal = function() {
+
+        document.getElementById('editBugForm').reset();
+        $(editBugModal).modal('show');
+
+        var data = _getSelectedBugData(openBugsTable);
+
+        if(!data) return;
+
+        $(editBugTitle).val(data.title);
+        $(editBugDescription).val(data.description);
+        $(editBugUserDropdown).val(data.userId);
+        $(editBugId).val(data.bugId);
+    }
+
+    var _updateBug = function() {
+
+        
+        var editBugForm = document.getElementById('editBugForm')
+        var isValid = editBugForm.reportValidity();
+        
+        if(!isValid) return;
+        
+        var form = $(editBugForm);
+        var data = _getFormData(form); 
+        var bugId = _getSelectedBugData(openBugsTable).bugId;
+
+        if(!data) return;
+
+        $.ajax({
+            'type': 'PUT',
+            'url': 'http://localhost:5000/api/bugs/' + bugId,
+            'data': data,
+            'success': function () {
+
+                _showSuccessAlert('Bug successfully updated', alertsRow);
+                $(openBugsTable).DataTable().ajax.reload();
+                $(editBugModal).modal('hide');
+
+            },
+            'error': function () {
+
+                _showErrorAlert('Error updating bug', editBugAlertRow);
+
+            }
+        })
+
+    }
+
     var _loadOpenBugs = function() {
 
         $(openBugsTable).DataTable({
@@ -95,6 +155,7 @@ var bugTraqHomeModule = (function($) {
             success: function(result) {
 
                 _appendUsersToDropdown(result, newBugUserDropdown, true);
+                _appendUsersToDropdown(result, editBugUserDropdown, true);
 
             }
         });
@@ -150,6 +211,39 @@ var bugTraqHomeModule = (function($) {
         $(newBugButton).on('click', _openNewBugModal);
         $(addBugButton).on('click', _addBug);
         $(deleteBugButton).on('click', _deleteBug);
+        $(editBugButton).on('click', _openEditBugModal);
+        $(updateBugButton).on('click', _updateBug);
+
+        var table = $(openBugsTable).DataTable();
+ 
+        table.on('select', _rowSelected);
+        table.on('deselect', _rowDeSelected);
+    }
+
+    var _rowSelected = function(e, dt, type, indexes) {
+        
+        _showButtons();
+        
+    }
+
+    var _rowDeSelected = function(e, dt, type, indexes) {
+        
+        _hideButtons();
+        
+    }
+
+    var _hideButtons = function() {
+
+        $(deleteBugButton).css('display', 'none');
+        $(editBugButton).css('display', 'none');
+
+    }
+
+    var _showButtons = function() {
+
+        $(deleteBugButton).css('display', 'inline-block');
+        $(editBugButton).css('display', 'inline-block');
+
     }
 
     var _getFormData = function ($form){

@@ -40,7 +40,7 @@ namespace BugTraq.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBug(int id, Bug bug)
+        public async Task<IActionResult> PutBug(int id, [FromForm]Bug bug)
         {
             if (id != bug.BugId)
             {
