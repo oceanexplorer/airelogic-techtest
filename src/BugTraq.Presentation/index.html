@@ -13,6 +13,7 @@
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="vendor/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <link href="vendor/datatables/css/select.dataTables.min.css" rel="stylesheet">
   <link href="css/site.css" rel="stylesheet">
 
 </head>
@@ -43,18 +44,14 @@
 
   <!-- Page Content -->
   <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-left">
-        <h1 class="mt-5"></h1>        
-      </div>
-    </div>
-    <div class="row">
+    <div id="alertsRow" class="row"></div>
+    <div id="contentRow" class="row">
       <div class="col-lg-12">
-        <div class="card">
+        <div id=openbugsCard class="card">
             <h5 class="card-header">
                 <div class="float-left">Open Bugs</div>
                 <div class="float-right" role="group">
-                  <a id="addBugButton" href="#" class="btn btn-primary btn-sm">Add</a>
+                  <a id="newBugButton" href="#" class="btn btn-primary btn-sm">New</a>
                   <a id="deleteBugButton" href="#" class="btn btn-primary btn-sm">Delete</a>
                   <a id="editBugButton" href="#" class="btn btn-primary btn-sm">Edit</a>
                 </div>
@@ -65,41 +62,43 @@
         </div>
       </div>
     </div>
-    <!-- Add Bug Modal -->
-    <div class="modal fade" id="addBugModal" tabindex="-1" role="dialog" aria-labelledby="addBugModalTitle" aria-hidden="true">
+    <!-- Add Bug Modal -->     
+    </div>
+    <div class="modal fade" id="newBugModal" tabindex="-1" role="dialog" aria-labelledby="newBugModalTitle" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addBugModalTitle">Add Bug</h5>
+            <h5 class="modal-title" id="newBugModalTitle">Add Bug</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form>
+              <div id="addBugAlertRow" class=row></div>
+            <form id="newBugForm">
               <div class="form-group row">
-                <label for="addBugTitle" class="col-sm-3 col-form-label">Title</label>
+                <label for="newBugTitle" class="col-sm-3 col-form-label">Title</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="addBugTitle" placeholder="Email">
+                  <input name=title type="text" class="form-control" id="newBugTitle" placeholder="Title" required>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="addBugDescription" class="col-sm-3 col-form-label">Description</label>
+                <label for="newBugDescription" class="col-sm-3 col-form-label">Description</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="addBugDescription" placeholder="Description">
+                  <input name=description type="text" class="form-control" id="newBugDescription" placeholder="Description" required>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="addBugUserDropdown" class="col-sm-3 col-form-label">Assigned To</label>
+                <label for="newBugUserDropdown" class="col-sm-3 col-form-label">Assigned To</label>
                 <div class="col-sm-9">
-                  <select class="form-control" id="addBugUserDropdown">
+                  <select name=userId class="form-control" id="newBugUserDropdown" required></select>
                 </div>
-              </div>
+              </div>             
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Add</button>
+            <button id="addBugButton" type="button" class="btn btn-primary">Add</button>
           </div>
         </div>
       </div>
@@ -111,6 +110,7 @@
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
   <script src="vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
+  <script src="vendor/datatables/js/dataTables.select.min.js"></script>
   <script src="js/index.js"></script>
 
 </body>

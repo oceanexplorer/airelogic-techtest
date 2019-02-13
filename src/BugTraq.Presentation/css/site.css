@@ -1,0 +1,8 @@
+#alertsRow {
+    height: 4em;
+    margin-top: 1em;
+}
+
+#openBugsTable {
+    cursor: pointer;
+}
