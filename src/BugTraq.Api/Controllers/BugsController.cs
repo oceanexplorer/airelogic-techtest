@@ -69,7 +69,7 @@ namespace BugTraq.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Bug>> PostBug(Bug bug)
+        public async Task<ActionResult<Bug>> PostBug([FromForm]Bug bug)
         {
             _context.Bugs.Add(bug);
             await _context.SaveChangesAsync();

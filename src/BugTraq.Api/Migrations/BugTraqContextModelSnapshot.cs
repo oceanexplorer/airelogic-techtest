@@ -21,7 +21,9 @@ namespace BugTraq.Api.Migrations
                     b.Property<int>("BugId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -47,7 +49,7 @@ namespace BugTraq.Api.Migrations
                         new
                         {
                             BugId = 1,
-                            CreatedDate = new DateTime(2019, 2, 12, 23, 9, 35, 741, DateTimeKind.Local).AddTicks(90),
+                            CreatedDate = new DateTime(2019, 2, 13, 20, 18, 32, 784, DateTimeKind.Local).AddTicks(6800),
                             Description = "This is our first bug!",
                             Status = "Open",
                             Title = "First Bug",
@@ -56,7 +58,7 @@ namespace BugTraq.Api.Migrations
                         new
                         {
                             BugId = 2,
-                            CreatedDate = new DateTime(2019, 2, 12, 23, 9, 35, 745, DateTimeKind.Local).AddTicks(4840),
+                            CreatedDate = new DateTime(2019, 2, 13, 20, 18, 32, 789, DateTimeKind.Local).AddTicks(1490),
                             Description = "This is our second bug!",
                             Status = "Open",
                             Title = "Second Bud",

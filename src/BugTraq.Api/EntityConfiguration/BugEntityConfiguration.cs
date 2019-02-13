@@ -26,7 +26,8 @@ namespace BugTraq.Api.EntityConfiguration
                 .IsRequired();
 
             bug.Property(b => b.CreatedDate)
-                .IsRequired();
+                .IsRequired()
+                .HasDefaultValueSql("getutcdate()");
         }
     }
 }

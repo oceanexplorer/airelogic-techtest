@@ -4,6 +4,12 @@ namespace BugTraq.Api.Models
 {
     public class Bug
     {
+        public Bug()
+        {
+            Status = "Open";
+            CreatedDate = DateTime.UtcNow;
+        }
+        
         public int BugId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
