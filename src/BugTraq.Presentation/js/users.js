@@ -22,31 +22,11 @@ var bugTraqUsersModule = (function($) {
         _loadUsers();
         _wireUpEvents();
 
-    }
-
-    var _loadUsers = function() {
-
-        $(usersTable).DataTable({
-            'ajax': { 
-                'url': 'http://localhost:5000/api/users',
-                'dataSrc': ''
-            },
-            'columns': [{ 
-                'data': 'userId',
-                'visible': false 
-            },{
-                'data': 'firstName',
-                'title': 'First Name'
-            }, {
-                'data': 'surname',
-                'title': 'Surname'
-            }]
-        });
     };
 
     var _addUser = function () {
 
-        var newUserForm = document.getElementById('newUserForm')
+        var newUserForm = document.getElementById('newUserForm');
         var isValid = newUserForm.reportValidity();
         
         if(!isValid) return;
@@ -83,7 +63,7 @@ var bugTraqUsersModule = (function($) {
 
             }
         });
-    }
+    };
 
     var _getFormData = function ($form){
 
@@ -96,7 +76,34 @@ var bugTraqUsersModule = (function($) {
     
         return indexed_array;
 
-    }
+    };
+
+    var _loadUsers = function() {
+
+        $(usersTable).DataTable({
+            'ajax': { 
+                'url': 'http://localhost:5000/api/users',
+                'dataSrc': ''
+            },
+            'columns': [{ 
+                'data': 'userId',
+                'visible': false 
+            },{
+                'data': 'firstName',
+                'title': 'First Name'
+            }, {
+                'data': 'surname',
+                'title': 'Surname'
+            }]
+        });
+    };
+
+    var _openNewUserModal = function () {
+
+        document.getElementById('newUserForm').reset();
+        $(newUserModal).modal('show');
+
+    };
 
     var _showErrorAlert = function (message, elementToAppendTo) {
 
@@ -108,7 +115,7 @@ var bugTraqUsersModule = (function($) {
               '<span>' + message + '</span>' +
             '</div>' + 
           '</div>').hide().appendTo(elementToAppendTo).fadeIn(1000);
-    }
+    };
 
     var _showSuccessAlert = function (message, elementToAppendTo) {
 
@@ -120,27 +127,20 @@ var bugTraqUsersModule = (function($) {
               '<span>' + message + '</span>' +
             '</div>' + 
           '</div>').hide().appendTo(elementToAppendTo).fadeIn(1000);
-    }
-    
-    var _openNewUserModal = function () {
-
-        document.getElementById('newUserForm').reset();
-        $(newUserModal).modal('show');
-
-    }
+    };
     
     var _wireUpEvents = function ()
     {
        $(newUserButton).on('click', _openNewUserModal);
        $(addUserButton).on('click', _addUser);
-    }
+    };
 
     return {
         init: init
-    }
+    };
 
 })(jQuery);
 
 $(document).ready(function (){
     bugTraqUsersModule.init();
-})
+});
