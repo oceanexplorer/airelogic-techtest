@@ -50,14 +50,19 @@ namespace BugTraq.Api.Migrations
                 values: new object[] { 1, "Jeff", "Simms" });
 
             migrationBuilder.InsertData(
-                table: "Bugs",
-                columns: new[] { "BugId", "CreatedDate", "Description", "Status", "Title", "UserId" },
-                values: new object[] { 1, new DateTime(2019, 2, 13, 20, 18, 32, 784, DateTimeKind.Local).AddTicks(6800), "This is our first bug!", "Open", "First Bug", 1 });
+                table: "Users",
+                columns: new[] { "UserId", "FirstName", "Surname" },
+                values: new object[] { 2, "Sally", "Prescott" });
 
             migrationBuilder.InsertData(
                 table: "Bugs",
                 columns: new[] { "BugId", "CreatedDate", "Description", "Status", "Title", "UserId" },
-                values: new object[] { 2, new DateTime(2019, 2, 13, 20, 18, 32, 789, DateTimeKind.Local).AddTicks(1490), "This is our second bug!", "Open", "Second Bud", 1 });
+                values: new object[] { 1, new DateTime(2019, 2, 14, 1, 32, 24, 550, DateTimeKind.Local).AddTicks(4160), "Change the logo on the website", "Open", "Add new company logo to website", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Bugs",
+                columns: new[] { "BugId", "CreatedDate", "Description", "Status", "Title", "UserId" },
+                values: new object[] { 2, new DateTime(2019, 2, 14, 1, 32, 24, 555, DateTimeKind.Local).AddTicks(1700), "Create an automated backup process", "Open", "Create a backup process", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bugs_UserId",

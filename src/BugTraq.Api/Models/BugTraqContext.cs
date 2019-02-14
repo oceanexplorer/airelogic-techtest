@@ -22,8 +22,8 @@ namespace BugTraq.Api.Models
             modelBuilder.Entity<Bug>().HasData(new Bug
             { 
                 BugId = 1,
-                Title = "First Bug", 
-                Description = "This is our first bug!", 
+                Title = "Add new company logo to website", 
+                Description = "Change the logo on the website", 
                 CreatedDate = DateTime.Now,
                 Status = "Open",
                 UserId = 1
@@ -32,14 +32,15 @@ namespace BugTraq.Api.Models
             modelBuilder.Entity<Bug>().HasData(new Bug
             { 
                 BugId = 2,
-                Title = "Second Bud", 
-                Description = "This is our second bug!", 
+                Title = "Create a backup process", 
+                Description = "Create an automated backup process", 
                 CreatedDate = DateTime.Now,
                 Status = "Open",
                 UserId = 1
             });
 
             modelBuilder.Entity<User>().HasData(new User { UserId = 1, FirstName = "Jeff", Surname = "Simms" });
+            modelBuilder.Entity<User>().HasData(new User { UserId = 2, FirstName = "Sally", Surname = "Prescott" });
         }
 
         public DbSet<BugTraq.Api.Models.User> User { get; set; }

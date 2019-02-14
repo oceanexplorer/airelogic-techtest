@@ -49,19 +49,19 @@ namespace BugTraq.Api.Migrations
                         new
                         {
                             BugId = 1,
-                            CreatedDate = new DateTime(2019, 2, 13, 20, 18, 32, 784, DateTimeKind.Local).AddTicks(6800),
-                            Description = "This is our first bug!",
+                            CreatedDate = new DateTime(2019, 2, 14, 1, 32, 24, 550, DateTimeKind.Local).AddTicks(4160),
+                            Description = "Change the logo on the website",
                             Status = "Open",
-                            Title = "First Bug",
+                            Title = "Add new company logo to website",
                             UserId = 1
                         },
                         new
                         {
                             BugId = 2,
-                            CreatedDate = new DateTime(2019, 2, 13, 20, 18, 32, 789, DateTimeKind.Local).AddTicks(1490),
-                            Description = "This is our second bug!",
+                            CreatedDate = new DateTime(2019, 2, 14, 1, 32, 24, 555, DateTimeKind.Local).AddTicks(1700),
+                            Description = "Create an automated backup process",
                             Status = "Open",
-                            Title = "Second Bud",
+                            Title = "Create a backup process",
                             UserId = 1
                         });
                 });
@@ -89,6 +89,12 @@ namespace BugTraq.Api.Migrations
                             UserId = 1,
                             FirstName = "Jeff",
                             Surname = "Simms"
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            FirstName = "Sally",
+                            Surname = "Prescott"
                         });
                 });
 
