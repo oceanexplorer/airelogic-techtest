@@ -14,6 +14,9 @@ var bugTraqUsersModule = (function($) {
     // Modal
     var newUserModal = '#newUserModal';
 
+    // Locks
+    var addUserAlreadyInProcess = false;
+
     var init = function() {
 
         _loadUsers();
@@ -45,14 +48,18 @@ var bugTraqUsersModule = (function($) {
 
         var newUserForm = document.getElementById('newUserForm')
         var isValid = newUserForm.reportValidity();
-
+        
         if(!isValid) return;
-
+        
         var form = $(newUserForm);
         var data = _getFormData(form);
         
         $(addUserButton).prop('disabled', true);
+        
+        if(addUserAlreadyInProcess) return;
 
+        addUserAlreadyInProcess = true;
+        
         $.ajax({
             'type': 'POST',
             'url': 'http://localhost:5000/api/users',
@@ -72,6 +79,7 @@ var bugTraqUsersModule = (function($) {
             'complete': function () {
 
                 $(addUserButton).prop('disabled', false);
+                addUserAlreadyInProcess = false;
 
             }
         });

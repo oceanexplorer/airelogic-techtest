@@ -30,9 +30,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="index.html">Home
-              
-            </a>
+            <a class="nav-link" href="index.html">Bugs</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="users.html">Users</a>
@@ -136,7 +134,16 @@
             <div class="col-sm-9">
               <select name=userId class="form-control" id="editBugUserDropdown" required></select>
             </div>
-          </div>             
+          </div> 
+          <div class="form-group row">
+              <label for="editBugStatusDropdown" class="col-sm-3 col-form-label">Status</label>
+              <div class="col-sm-9">
+                <select name=status class="form-control" id="editBugStatusDropdown" required>
+                  <option value="Open">Open</option>
+                  <option value="Closed">Closed</option>
+                </select>
+              </div>
+            </div>             
         </form>
       </div>
       <div class="modal-footer">
