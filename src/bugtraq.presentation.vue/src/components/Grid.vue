@@ -17,10 +17,12 @@
             <h6 class="mb-0">{{ name | capitalize }}</h6>
           </template>
           <b-card-text>
-            <b-card class="mb-2" v-for="entry in value" v-bind:key="entry.id">
-              <h5>{{ entry.title }}</h5>
-              <b-card-text>{{ entry.title }}</b-card-text>
-            </b-card>
+            <draggable>
+              <b-card class="mb-2" v-for="entry in value" v-bind:key="entry.id">
+                <h5>{{ entry.title }}</h5>
+                <b-card-text>{{ entry.title }}</b-card-text>
+              </b-card>
+            </draggable>
           </b-card-text>
         </b-card>
       </div>
@@ -34,8 +36,13 @@
 </template>
 
 <script>
+import draggable from "vuedraggable";
+
 export default {
   name: "grid",
+  components: {
+    draggable
+  },
   data: function() {
     return {
       displayMethod: "cards",
