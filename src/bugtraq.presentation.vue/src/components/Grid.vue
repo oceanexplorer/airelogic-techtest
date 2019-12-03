@@ -13,9 +13,12 @@
             <h6 class="mb-0">{{ status | capitalize }}</h6>
           </template>
           <b-card-text>
+            <div v-if="loading === true" class="d-flex justify-content-center mb-3">
+              <b-spinner label="Loading..."></b-spinner>
+            </div>
             <draggable v-bind="dragOptions">
               <transition-group type="transition" :name=status>
-                <b-card class="mb-2 draggable" v-for="ticket in tickets[status]" v-bind:key="ticket.id">
+                <b-card class="mb-2 draggable" v-for="ticket in ticketsByStatus[status]" v-bind:key="ticket.bugId">
                   <h5>{{ ticket.title }}</h5>
                   <b-card-text>{{ ticket.title }}</b-card-text>
                 </b-card>
@@ -23,6 +26,11 @@
             </draggable>
           </b-card-text>
         </b-card>
+      </div>
+    </div>
+    <div class="row" v-if="displayMethod === 'table'">
+      <div class="col">
+        <b-table :items="tickets"></b-table>
       </div>
     </div>
   </div>  
@@ -48,48 +56,12 @@ export default {
   data: function() {
     return {
       displayMethod: "cards",
-      statuses: ['new', 'active', 'resolved', 'closed'],
+      statuses: ['New', 'Active', 'Resolved', 'Closed'],
       isDragging: false,
-      tickets: {
-        new: [
-          {
-            id: 1,
-            title: "Change the title on the homepage",
-            date: "01/01/2019",
-            status: "new"
-          },
-          {
-            id: 2,
-            title: "Uploading data causes an error",
-            date: "15/01/2019",
-            status: "new"
-          }
-        ],
-        active: [
-          {
-            id: 3,
-            title: "Unable to view users",
-            date: "11/01/2019",
-            status: "active"
-          }
-        ],
-        resolved: [
-          {
-            id: 4,
-            title: "Unable to view food",
-            date: "11/01/2019",
-            status: "resolved"
-          }
-        ],
-        closed: [
-          {
-            id: 5,
-            title: "Another Bug",
-            date: "11/01/2019",
-            status: "closed"
-          }
-        ]
-      }
+      loading: true,
+      info: null,
+      tickets: {},
+      ticketsByStatus: {}
     };
   },
   filters: {
@@ -100,9 +72,18 @@ export default {
     }
   },
   methods: {
-    groupedByProperty: function(propertyName) {
-      return this._.groupBy(this.gridData, propertyName);
+    groupedByProperty: function(data, propertyName) {
+      return this._.groupBy(data, propertyName);
     }
+  },
+  mounted () {
+    this.axios
+      .get('http://localhost:5000/api/bugs')
+      .then(response => {
+        this.tickets = response.data;
+        this.ticketsByStatus = this.groupedByProperty(response.data, "status")
+      })
+      .finally(() => this.loading = false);
   }
 };
 </script>
