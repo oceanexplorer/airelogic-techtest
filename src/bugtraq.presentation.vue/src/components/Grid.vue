@@ -7,35 +7,29 @@
       </b-button-group>
     </div>
     <div class="row" v-if="displayMethod === 'cards'">
-      <div
-        class="col-sm"
-        v-for="(value, name, index) in groupedByProperty('status')"
-        v-bind:key="index"
-      >
+      <div class="col" v-for="status in statuses" v-bind:key="status">
         <b-card>
           <template v-slot:header>
-            <h6 class="mb-0">{{ name | capitalize }}</h6>
+            <h6 class="mb-0">{{ status | capitalize }}</h6>
           </template>
           <b-card-text>
-            <draggable>
-              <b-card class="mb-2" v-for="entry in value" v-bind:key="entry.id">
-                <h5>{{ entry.title }}</h5>
-                <b-card-text>{{ entry.title }}</b-card-text>
-              </b-card>
+            <draggable v-bind="dragOptions">
+              <transition-group type="transition" :name=status>
+                <b-card class="mb-2 draggable" v-for="ticket in tickets[status]" v-bind:key="ticket.id">
+                  <h5>{{ ticket.title }}</h5>
+                  <b-card-text>{{ ticket.title }}</b-card-text>
+                </b-card>
+              </transition-group>
             </draggable>
           </b-card-text>
         </b-card>
       </div>
     </div>
-    <div class="row" v-if="displayMethod === 'table'">
-      <div class="col">
-        <b-table :items="gridData"></b-table>
-      </div>
-    </div>
-  </div>
+  </div>  
 </template>
 
 <script>
+
 import draggable from "vuedraggable";
 
 export default {
@@ -43,41 +37,59 @@ export default {
   components: {
     draggable
   },
+  computed: {
+    dragOptions() {
+      return {
+        animation: 150,
+        group: "description"
+      };
+    }
+  },
   data: function() {
     return {
       displayMethod: "cards",
-      gridData: [
-        {
-          id: 1,
-          title: "Change the title on the homepage",
-          date: "01/01/2019",
-          status: "new"
-        },
-        {
-          id: 2,
-          title: "Uploading data causes an error",
-          date: "15/01/2019",
-          status: "new"
-        },
-        {
-          id: 3,
-          title: "Unable to view users",
-          date: "11/01/2019",
-          status: "active"
-        },
-        {
-          id: 4,
-          title: "Unable to view food",
-          date: "11/01/2019",
-          status: "resolved"
-        },
-        {
-          id: 5,
-          title: "Another Bug",
-          date: "11/01/2019",
-          status: "closed"
-        }
-      ]
+      statuses: ['new', 'active', 'resolved', 'closed'],
+      isDragging: false,
+      tickets: {
+        new: [
+          {
+            id: 1,
+            title: "Change the title on the homepage",
+            date: "01/01/2019",
+            status: "new"
+          },
+          {
+            id: 2,
+            title: "Uploading data causes an error",
+            date: "15/01/2019",
+            status: "new"
+          }
+        ],
+        active: [
+          {
+            id: 3,
+            title: "Unable to view users",
+            date: "11/01/2019",
+            status: "active"
+          }
+        ],
+        resolved: [
+          {
+            id: 4,
+            title: "Unable to view food",
+            date: "11/01/2019",
+            status: "resolved"
+          }
+        ],
+        closed: [
+          {
+            id: 5,
+            title: "Another Bug",
+            date: "11/01/2019",
+            status: "closed"
+          }
+        ]
+      }
     };
   },
   filters: {
@@ -94,3 +106,7 @@ export default {
   }
 };
 </script>
+
+<style>
+  .draggable { cursor: pointer}
+</style>
