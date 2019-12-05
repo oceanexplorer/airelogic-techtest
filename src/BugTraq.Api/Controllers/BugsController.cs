@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BugTraq.Api.Models;
+using BugTraq.Api.Queries;
 using MediatR;
 
 namespace BugTraq.Api.Controllers
@@ -26,7 +27,7 @@ namespace BugTraq.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Bug>>> GetBugs()
         {
-            return await _context.Bugs.ToListAsync();
+            return await _mediator.Send(new GetBugs.Query());
         }
 
         [HttpGet("{id}")]
