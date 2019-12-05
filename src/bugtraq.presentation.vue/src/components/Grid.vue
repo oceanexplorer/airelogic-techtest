@@ -8,20 +8,20 @@
     </div>
     <div class="row" v-if="displayMethod === 'cards'">
       <div class="col" v-for="(tickets, status) in statuses" v-bind:key="status">
-        <b-card style="min-height: 20rem; border=1px solid black">
+        <b-card class="h-100">
           <template v-slot:header>
             <h6 class="mb-0">{{ status | capitalize }}</h6>
           </template>
-          <b-card-text style="min-height: 20rem;">
+          <b-card-text>
             <div v-if="loading === true" class="d-flex justify-content-center mb-3">
               <b-spinner label="Loading..."></b-spinner>
             </div>
               <draggable 
-                style="min-height: 20rem"
+                class=dragArea
                 :list="statuses[status]" 
                 v-bind="dragOptions" 
-                @change="onChange($event, status)"                
-              >                
+                @change="onChange($event, status)"
+              >
                   <b-card class="mb-2 draggable" v-for="ticket in statuses[status]" v-bind:key="ticket.bugId">
                     <h5>{{ ticket.title }}</h5>
                     <b-card-text>{{ ticket.title }}</b-card-text>
@@ -112,5 +112,9 @@ export default {
 <style>
   .draggable { 
     cursor: pointer;
+  }
+
+  .dragArea {
+    min-height: 15rem;
   }
 </style>
