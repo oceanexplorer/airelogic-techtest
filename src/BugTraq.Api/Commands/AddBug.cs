@@ -2,11 +2,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using BugTraq.Api.Models;
 using MediatR;
-using Newtonsoft.Json;
+
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace BugTraq.Api.Commands
 {
-    public static class AddBug
+    public class AddBug
     {
         public class Command : IRequest
         {

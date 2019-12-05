@@ -5,7 +5,7 @@ using MediatR;
 
 namespace BugTraq.Api.Commands
 {
-    public static class UpdateBugStatus
+    public class UpdateBugStatus
     {
         public class Command : IRequest
         {
