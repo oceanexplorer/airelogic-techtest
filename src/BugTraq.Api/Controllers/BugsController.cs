@@ -1,10 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BugTraq.Api.Commands;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using BugTraq.Api.Models;
 using BugTraq.Api.Queries;
 using MediatR;
 
@@ -15,12 +12,10 @@ namespace BugTraq.Api.Controllers
     public class BugsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly BugTraqContext _context;
 
-        public BugsController(IMediator mediator, BugTraqContext context)
+        public BugsController(IMediator mediator)
         {
             _mediator = mediator;
-            _context = context;
         }
 
         [HttpGet]
@@ -30,16 +25,9 @@ namespace BugTraq.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bug>> GetBug(int id)
+        public async Task<ActionResult<GetBug.Result>> GetBug(int id)
         {
-            var bug = await _context.Bugs.FindAsync(id);
-
-            if (bug == null)
-            {
-                return NotFound();
-            }
-
-            return bug;
+            return await _mediator.Send(new GetBug.Query(id));
         }
 
         [HttpPut("UpdateStatus/{id}/{status}")]
@@ -49,32 +37,9 @@ namespace BugTraq.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBug(int id, [FromForm]Bug bug)
+        public async Task PutBug([FromBody] UpdateBug.Command updateBug)
         {
-            if (id != bug.BugId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(bug).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BugExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            await _mediator.Send(updateBug);
         }
 
         [HttpPost]
@@ -84,23 +49,9 @@ namespace BugTraq.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Bug>> DeleteBug(int id)
+        public async Task DeleteBug(int id)
         {
-            var bug = await _context.Bugs.FindAsync(id);
-            if (bug == null)
-            {
-                return NotFound();
-            }
-
-            _context.Bugs.Remove(bug);
-            await _context.SaveChangesAsync();
-
-            return bug;
-        }
-
-        private bool BugExists(int id)
-        {
-            return _context.Bugs.Any(e => e.BugId == id);
+            await _mediator.Send(new DeleteBug.Command(id));
         }
     }
 }
