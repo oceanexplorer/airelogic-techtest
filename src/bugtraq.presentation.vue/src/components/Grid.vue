@@ -7,23 +7,28 @@
       </b-button-group>
     </div>
     <div class="row" v-if="displayMethod === 'cards'">
-      <div class="col" v-for="status in statuses" v-bind:key="status">
-        <b-card>
+      <div class="col" v-for="(tickets, status) in statuses" v-bind:key="status">
+        <b-card style="min-height: 20rem; border=1px solid black">
           <template v-slot:header>
             <h6 class="mb-0">{{ status | capitalize }}</h6>
           </template>
-          <b-card-text>
+          <b-card-text style="min-height: 20rem;">
             <div v-if="loading === true" class="d-flex justify-content-center mb-3">
               <b-spinner label="Loading..."></b-spinner>
             </div>
-            <draggable v-bind="dragOptions">
-              <transition-group type="transition" :name=status>
-                <b-card class="mb-2 draggable" v-for="ticket in ticketsByStatus[status]" v-bind:key="ticket.bugId">
-                  <h5>{{ ticket.title }}</h5>
-                  <b-card-text>{{ ticket.title }}</b-card-text>
-                </b-card>
-              </transition-group>
-            </draggable>
+              <draggable 
+                style="min-height: 20rem"
+                :list="statuses[status]" 
+                v-bind="dragOptions" 
+                @change="onChange($event, status)"                
+              >                
+                  <b-card class="mb-2 draggable" v-for="ticket in statuses[status]" v-bind:key="ticket.bugId">
+                    <h5>{{ ticket.title }}</h5>
+                    <b-card-text>{{ ticket.title }}</b-card-text>
+                  </b-card>
+          
+              </draggable>
+
           </b-card-text>
         </b-card>
       </div>
@@ -37,7 +42,8 @@
 </template>
 
 <script>
-
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 import draggable from "vuedraggable";
 
 export default {
@@ -56,7 +62,12 @@ export default {
   data: function() {
     return {
       displayMethod: "cards",
-      statuses: ['New', 'Active', 'Resolved', 'Closed'],
+      statuses: {
+        new: [],
+        active: [],
+        resolved: [],
+        closed: []
+      },    
       isDragging: false,
       loading: true,
       info: null,
@@ -72,22 +83,34 @@ export default {
     }
   },
   methods: {
-    groupedByProperty: function(data, propertyName) {
-      return this._.groupBy(data, propertyName);
+    onChange (event, newStatus) {
+      this.updateTicket(event.added.element.bugId, newStatus);
+    },
+    filterByProperty(collection, propertyName, propertyValue) {
+      return this._.filter(collection, (item) =>  { return item[propertyName].toLowerCase() === propertyValue.toLowerCase() });
+    },
+    loadTickets (tickets) {
+      Object.entries(this.statuses).forEach(entry => {
+        let status = entry[0];
+        this.statuses[status] = this.filterByProperty(tickets, 'status', status);
+      });
+    },
+    updateTicket (id, status) {
+      this.axios
+        .put(`http://localhost:5000/api/bugs/updatestatus/${id}/${status}`)
     }
   },
   mounted () {
     this.axios
       .get('http://localhost:5000/api/bugs')
-      .then(response => {
-        this.tickets = response.data;
-        this.ticketsByStatus = this.groupedByProperty(response.data, "status")
-      })
+      .then(response => this.loadTickets(response.data))
       .finally(() => this.loading = false);
   }
 };
 </script>
 
 <style>
-  .draggable { cursor: pointer}
+  .draggable { 
+    cursor: pointer;
+  }
 </style>

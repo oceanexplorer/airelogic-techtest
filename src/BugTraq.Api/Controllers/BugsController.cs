@@ -39,6 +39,17 @@ namespace BugTraq.Api.Controllers
             return bug;
         }
 
+        [HttpPut("updatestatus/{id}/{status}")]
+        public async Task<IActionResult> UpdateStatus(int id, string status)
+        {
+            var ticket = await _context.Bugs.FindAsync(id);
+            ticket.Status = status;
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBug(int id, [FromForm]Bug bug)
         {
