@@ -1,15 +1,18 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using BugTraq.Api.Models;
 using MediatR;
+using Newtonsoft.Json;
 
 namespace BugTraq.Api.Commands
 {
-    public static class UpdateBugStatus
+    public static class AddBug
     {
         public class Command : IRequest
         {
-            public int Id { get; set; }
+            public string Title { get; set;}
+            public string Description { get; set;}
+            public int UserId { get; set;}
             public string Status { get; set; }
         }
 
@@ -23,9 +26,9 @@ namespace BugTraq.Api.Commands
             }
             protected override async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var ticket = await _context.Bugs.FindAsync(request.Id);
-                ticket.Status = request.Status;
-
+                var bug = new Bug(request.Title, request.Description, request.Status, request.UserId);
+                _context.Bugs.Add(bug);
+                
                 await _context.SaveChangesAsync(cancellationToken);
             }
         }

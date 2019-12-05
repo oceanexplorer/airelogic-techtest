@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BugTraq.Api.Commands;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BugTraq.Api.Models;
@@ -26,7 +24,7 @@ namespace BugTraq.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bug>>> GetBugs()
+        public async Task<ActionResult<IEnumerable<GetBugs.Result>>> GetBugs()
         {
             return await _mediator.Send(new GetBugs.Query());
         }
@@ -45,10 +43,9 @@ namespace BugTraq.Api.Controllers
         }
 
         [HttpPut("UpdateStatus/{id}/{status}")]
-        public async Task<IActionResult> UpdateStatus(int id, string status)
+        public async Task UpdateStatus(UpdateBugStatus.Command bugStatus)
         {
-            await _mediator.Send(new UpdateBugStatus.Command(id, status));
-            return Ok();
+            await _mediator.Send(bugStatus);
         }
 
         [HttpPut("{id}")]
@@ -81,12 +78,9 @@ namespace BugTraq.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Bug>> PostBug([FromForm]Bug bug)
+        public async Task PostBug([FromBody] AddBug.Command bug)
         {
-            _context.Bugs.Add(bug);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetBug", new { id = bug.BugId }, bug);
+            await _mediator.Send(bug);
         }
 
         [HttpDelete("{id}")]

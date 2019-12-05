@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,9 @@ namespace BugTraq.Api
             services.AddHealthChecks();
             services.AddCors();
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            
+            var configuration = new MapperConfiguration(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly()));
 
             var connection = "Data Source=bugs.db";
             services.AddDbContext<BugTraqContext>(options => options.UseSqlite(connection));
