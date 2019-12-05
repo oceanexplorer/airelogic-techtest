@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BugTraq.Api.Queries
 {
-    public class GetBugs
+    public static class GetBugs
     {
         public class Query : IRequest<List<Bug>>
         {

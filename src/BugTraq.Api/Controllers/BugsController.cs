@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BugTraq.Api.Commands;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -43,14 +44,10 @@ namespace BugTraq.Api.Controllers
             return bug;
         }
 
-        [HttpPut("updatestatus/{id}/{status}")]
+        [HttpPut("UpdateStatus/{id}/{status}")]
         public async Task<IActionResult> UpdateStatus(int id, string status)
         {
-            var ticket = await _context.Bugs.FindAsync(id);
-            ticket.Status = status;
-
-            await _context.SaveChangesAsync();
-
+            await _mediator.Send(new UpdateBugStatus.Command(id, status));
             return Ok();
         }
 
