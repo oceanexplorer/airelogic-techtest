@@ -26,6 +26,8 @@ namespace BugTraq.Api.Queries
             public DateTime CreatedDate { get; set; }
             public string Status { get; set; }
             public int UserId { get; set; }
+            public string UserFirstName { get; set; }
+            public string UserSurname { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, List<Result>>
@@ -42,7 +44,7 @@ namespace BugTraq.Api.Queries
             public async Task<List<Result>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _mapper
-                    .ProjectTo<Result>(_context.Bugs)
+                    .ProjectTo<Result>(_context.Bugs.Include(e => e.User))
                     .ToListAsync(cancellationToken);
             }
         }
