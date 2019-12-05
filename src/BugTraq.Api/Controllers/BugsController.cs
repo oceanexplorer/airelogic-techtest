@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BugTraq.Api.Models;
+using MediatR;
 
 namespace BugTraq.Api.Controllers
 {
@@ -13,10 +14,12 @@ namespace BugTraq.Api.Controllers
     [ApiController]
     public class BugsController : ControllerBase
     {
+        private readonly IMediator _mediator;
         private readonly BugTraqContext _context;
 
-        public BugsController(BugTraqContext context)
+        public BugsController(IMediator mediator, BugTraqContext context)
         {
+            _mediator = mediator;
             _context = context;
         }
 

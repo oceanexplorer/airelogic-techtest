@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Reflection;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using BugTraq.Api.Models;
+using MediatR;
 
 namespace BugTraq.Api
 {
@@ -23,6 +25,7 @@ namespace BugTraq.Api
             services.AddControllers();
             services.AddHealthChecks();
             services.AddCors();
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
             var connection = "Data Source=bugs.db";
             services.AddDbContext<BugTraqContext>(options => options.UseSqlite(connection));
