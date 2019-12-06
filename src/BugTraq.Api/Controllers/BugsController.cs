@@ -31,9 +31,9 @@ namespace BugTraq.Api.Controllers
         }
 
         [HttpPut("UpdateStatus/{id}/{status}")]
-        public async Task UpdateStatus(UpdateBugStatus.Command bugStatus)
+        public async Task UpdateStatus(int id, string status)
         {
-            await _mediator.Send(bugStatus);
+            await _mediator.Send(new UpdateBugStatus.Command {Id = id, Status = status});
         }
 
         [HttpPut("{id}")]
