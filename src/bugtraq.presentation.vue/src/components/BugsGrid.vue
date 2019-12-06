@@ -2,9 +2,14 @@
   <div>
     <div class="row mb-3 pl-3">
       <b-button-group>
-        <b-button @click="displayMethod = 'cards'">Cards</b-button>
-        <b-button @click="displayMethod = 'table'">Table</b-button>
+        <b-button @click="displayMethod = 'cards'">
+          <font-awesome-icon icon="address-card"/>
+        </b-button>
+        <b-button @click="displayMethod = 'table'">
+          <font-awesome-icon icon="table"/>
+        </b-button>
       </b-button-group>
+      <b-button v-b-modal.modal-1>Launch demo modal</b-button>
     </div>
     <div class="row" v-if="displayMethod === 'cards'">
       <div class="col" v-for="(tickets, status) in statuses" v-bind:key="status">
@@ -30,7 +35,7 @@
                           <font-awesome-icon icon="user" class="text-primary" />
                           <span class="pl-3">{{ ticket.userFirstName }} {{ ticket.userSurname }}</span>
                         </div>
-                      </div>
+                      </div>                     
                     </b-card-text>
                   </b-card>
           

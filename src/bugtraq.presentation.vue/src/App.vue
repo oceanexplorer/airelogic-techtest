@@ -1,21 +1,24 @@
 <template>
   <div id="app">
-    <navigation />
+    <the-navbar />
     <div class="container-fluid mt-5">
-      <grid />
+      <bugs-grid />
+      <add-bug />
     </div>
   </div>
 </template>
 
 <script>
-import navigation from './components/Navigation.vue'
-import grid from './components/Grid.vue'
+import TheNavbar from './components/TheNavbar.vue'
+import BugsGrid from './components/BugsGrid.vue'
+import AddBug from './components/AddBug.vue'
 
 export default {
   name: 'app',
   components: {
-    navigation,
-    grid
+    TheNavbar,
+    BugsGrid,
+    AddBug
   }
 }
 </script>
