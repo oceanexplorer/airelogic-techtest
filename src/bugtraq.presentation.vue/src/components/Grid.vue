@@ -22,9 +22,16 @@
                 v-bind="dragOptions" 
                 @change="onChange($event, status)"
               >
-                  <b-card class="mb-2 draggable" v-for="ticket in statuses[status]" v-bind:key="ticket.bugId">
-                    <h5>{{ ticket.title }}</h5>
-                    <b-card-text>{{ ticket.title }}</b-card-text>
+                  <b-card class="mb-2 draggable draggable-card" v-for="ticket in statuses[status]" v-bind:key="ticket.bugId">
+                    <h6 class="text-left">{{ ticket.title }}</h6>
+                    <b-card-text>
+                      <div class="row">
+                        <div class="col text-left">
+                          <font-awesome-icon icon="user" class="text-primary" />
+                          <span class="pl-3">{{ ticket.userFirstName }} {{ ticket.userSurname }}</span>
+                        </div>
+                      </div>
+                    </b-card-text>
                   </b-card>
           
               </draggable>
@@ -44,6 +51,7 @@
 <script>
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-debugger */
 import draggable from "vuedraggable";
 
 export default {
@@ -84,7 +92,9 @@ export default {
   },
   methods: {
     onChange (event, newStatus) {
-      this.updateTicket(event.added.element.bugId, newStatus);
+      if(event.added) {
+        this.updateTicket(event.added.element.bugId, newStatus);
+      }
     },
     filterByProperty(collection, propertyName, propertyValue) {
       return this._.filter(collection, (item) =>  { return item[propertyName].toLowerCase() === propertyValue.toLowerCase() });
@@ -116,5 +126,9 @@ export default {
 
   .dragArea {
     min-height: 15rem;
+  }
+  
+  .draggable-card {
+    border-left: 5px solid blue;
   }
 </style>
