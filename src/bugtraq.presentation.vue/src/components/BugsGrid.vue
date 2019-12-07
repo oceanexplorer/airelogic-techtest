@@ -1,15 +1,21 @@
 <template>
   <div>
-    <div class="row mb-3 pl-3">
-      <b-button-group>
-        <b-button @click="displayMethod = 'cards'">
-          <font-awesome-icon icon="address-card"/>
-        </b-button>
-        <b-button @click="displayMethod = 'table'">
-          <font-awesome-icon icon="table"/>
-        </b-button>
-      </b-button-group>
-      <b-button v-b-modal.modal-1>Launch demo modal</b-button>
+    <div class="row mb-3">
+      <div class="col-6">
+        <b-button-group>
+          <b-button @click="displayMethod = 'cards'">
+            <font-awesome-icon icon="address-card"/>
+          </b-button>
+          <b-button @click="displayMethod = 'table'">
+            <font-awesome-icon icon="table"/>
+          </b-button>
+        </b-button-group>
+      </div>
+      <div class="col-6">
+        <div class="float-right">
+          <slot name="actions"></slot>
+        </div>
+      </div>      
     </div>
     <div class="row" v-if="displayMethod === 'cards'">
       <div class="col" v-for="(tickets, status) in statuses" v-bind:key="status">
@@ -58,11 +64,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-debugger */
 import draggable from "vuedraggable";
+// import AddBug from "./AddBug";
 
 export default {
   name: "grid",
   components: {
-    draggable
+    draggable,
+    // AddBug
   },
   computed: {
     dragOptions() {
