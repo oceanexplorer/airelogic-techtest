@@ -50,7 +50,7 @@ namespace BugTraq.Api
             
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseCors(builder => builder.WithOrigins("http://localhost:8080").AllowAnyMethod());
+            app.UseCors(builder => builder.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader());
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
