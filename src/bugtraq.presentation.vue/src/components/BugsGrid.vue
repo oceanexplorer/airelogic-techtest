@@ -41,7 +41,14 @@
                           <font-awesome-icon icon="user" class="text-primary" />
                           <span class="pl-3">{{ ticket.userFirstName }} {{ ticket.userSurname }}</span>
                         </div>
-                      </div>                     
+                      </div>  
+                      <div class="row">
+                        <div class="col text-right">
+                          <a class="cursor-pointer" href="#" @click="showDeleteConfirmationModal(ticket.bugId)">
+                            <font-awesome-icon icon="trash" class="text-danger cursor-pointer" />
+                          </a>
+                        </div>
+                      </div>
                     </b-card-text>
                   </b-card>
           
@@ -64,13 +71,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-debugger */
 import draggable from "vuedraggable";
-// import AddBug from "./AddBug";
 
 export default {
   name: "grid",
   components: {
     draggable,
-    // AddBug
   },
   computed: {
     dragOptions() {
@@ -93,7 +98,10 @@ export default {
       loading: true,
       info: null,
       tickets: {},
-      ticketsByStatus: {}
+      ticketsByStatus: {},
+      deleteConfirmation: {
+          result: null
+      }
     };
   },
   filters: {
@@ -124,10 +132,24 @@ export default {
         this.statuses[status] = this.filterByProperty(tickets, 'status', status);
       });
     },
+    showDeleteConfirmationModal (id) {
+      this.$bvModal.msgBoxConfirm("Are you sure you want to delete this bug?")
+        .then(okToDelete => {
+          if(okToDelete) {
+              this.deleteTicket(id);
+          }
+        });
+        
+    },
     updateTicket (id, status) {
       this.axios
         .put(`http://localhost:5000/api/bugs/updatestatus/${id}/${status}`)
-    }    
+    },
+    deleteTicket (id) {
+      this.axios
+        .delete(`http://localhost:5000/api/bugs/${id}`)
+        .then(this.getTickets);     
+    }  
   },
   mounted () {
       
@@ -143,7 +165,7 @@ export default {
 
 <style>
   .draggable { 
-    cursor: pointer;
+    cursor: move;
   }
 
   .dragArea {
