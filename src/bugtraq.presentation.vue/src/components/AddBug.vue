@@ -1,13 +1,16 @@
 <template>
   <div>
-    <b-button v-b-modal.modal-1>Add Bug</b-button>
+    <b-button v-b-modal.addBugModal>Add Bug</b-button>
 
-    <b-modal id="modal-1" title="Add A Bug" size="lg" busy="true">
+    <b-modal id="addBugModal" title="Add A Bug" size="lg" hide-footer v-on:hidden="modalHidden">
       <div>
+        <b-alert v-model="success" variant="success" dismissible>
+          Bug has been added successfully
+        </b-alert>
         <b-alert v-model="errored" variant="danger" dismissible>
           Sorry an error has occured
         </b-alert>
-        <b-form @submit="onSubmit" @reset="onReset" v-if="show" class="form-horizontal">
+        <b-form @submit="onSubmit" v-if="show" class="form-horizontal">
           <b-form-group
             id="title-group"
             label="Title"
@@ -63,9 +66,10 @@
               required
             ></b-form-select>
           </b-form-group>
-
-          <b-button type="submit" variant="primary">Submit</b-button>
-          <b-button type="reset" variant="danger">Reset</b-button>
+          <div class="float-right">
+            <b-button type="reset" variant="danger" class="mr-2" @click.prevent="close">Close</b-button>
+            <b-button type="submit" variant="primary">Submit</b-button>
+          </div>
         </b-form>
       </div>
     </b-modal>
@@ -85,33 +89,50 @@
           statuses: [{ text: 'Select One', value: null }, 'New', 'Active', 'Resolved', 'Closed'],
           show: true,
           users: [{ text: 'Select One', value: null }, { text: 'Sarah Smith', value: 1 }],
-          errored: false
+          errored: false,
+          success: false
         }
     },
     methods: {
       onSubmit(evt) {
+          /* eslint-disable no-console */
+          console.log("helloooo");
         evt.preventDefault();
         let self = this;
         this.axios
           .post('http://localhost:5000/api/bugs', this.form)
           .catch(function () {
             self.errored = true;
-          });
+          })
+          .then(function() {
+            self.success = true;
+            self.reset();
+            self.$root.$emit("bug-added");
+          })
       },
-      onReset(evt) {
-        evt.preventDefault();
-        
+      modalHidden() {
+          this.reset();
+          this.resetAlerts();
+      },
+      reset() {     
         // Reset our form values
         this.form.title = '';
         this.form.description = '';
         this.form.status = null;
-        this.form.userId = [];
+        this.form.userId = null;
         
         // Trick to reset/clear native browser form validation state
         this.show = false;
         this.$nextTick(() => {
             this.show = true
-        })
+        });          
+      },
+      resetAlerts() {
+          this.errored = false;
+          this.success = false;
+      },
+      close () {
+        this.$bvModal.hide("addBugModal");        
       }
     }
   }

@@ -112,6 +112,12 @@ export default {
     filterByProperty(collection, propertyName, propertyValue) {
       return this._.filter(collection, (item) =>  { return item[propertyName].toLowerCase() === propertyValue.toLowerCase() });
     },
+    getTickets () {
+      this.axios
+        .get('http://localhost:5000/api/bugs')
+        .then(response => this.loadTickets(response.data))
+        .finally(() => this.loading = false);
+    },
     loadTickets (tickets) {
       Object.entries(this.statuses).forEach(entry => {
         let status = entry[0];
@@ -121,13 +127,16 @@ export default {
     updateTicket (id, status) {
       this.axios
         .put(`http://localhost:5000/api/bugs/updatestatus/${id}/${status}`)
-    }
+    }    
   },
   mounted () {
-    this.axios
-      .get('http://localhost:5000/api/bugs')
-      .then(response => this.loadTickets(response.data))
-      .finally(() => this.loading = false);
+      
+    this.$root.$on('bug-added', () => {
+        this.getTickets();
+    });
+    
+    this.getTickets();
+
   }
 };
 </script>
