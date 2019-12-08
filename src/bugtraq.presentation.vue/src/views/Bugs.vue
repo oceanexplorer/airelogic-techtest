@@ -3,7 +3,7 @@
     
     <bugs-grid>
       <template v-slot:actions>
-        <add-bug />
+        <add-bug-modal/>
       </template>
     </bugs-grid>
   </div>
@@ -11,13 +11,13 @@
 
 <script>
   import BugsGrid from "../components/BugsGrid.vue";
-  import AddBug from "../components/AddBug.vue"
+  import AddBugModal from "../components/AddBugModal.vue"
   
   export default {
       name: 'home',
       components: {
           BugsGrid,
-          AddBug
+          AddBugModal
       }
   }
 </script>
