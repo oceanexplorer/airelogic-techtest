@@ -88,7 +88,7 @@
           },
           statuses: [{ text: 'Select One', value: null }, 'New', 'Active', 'Resolved', 'Closed'],
           show: true,
-          users: [{ text: 'Select One', value: null }, { text: 'Sarah Smith', value: 1 }],
+          users: [{ text: 'Select One', value: null }, { text: 'Sarah Smith', value: "00000000-0000-0000-0000-000000000001" }],
           errored: false,
           success: false
         }
