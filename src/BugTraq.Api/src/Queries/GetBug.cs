@@ -49,8 +49,7 @@ namespace BugTraq.Api.Queries
             
             public async Task<Result> Handle(Query request, CancellationToken cancellationToken)
             {
-                var foo = _context.Bugs.ToList();
-;                return await _mapper
+                    return await _mapper
                     .ProjectTo<Result>(_context.Bugs.Include(e => e.User))
                     .Where(b => b.BugId == request.Id)
                     .FirstOrDefaultAsync(cancellationToken);

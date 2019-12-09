@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -17,7 +18,7 @@ namespace BugTraq.Api.Commands
             public int Id { get; set; }
             public string Title { get; set;}
             public string Description { get; set;}
-            public int UserId { get; set;}
+            public Guid UserId { get; set;}
             public string Status { get; set; }
         }
 
@@ -33,7 +34,7 @@ namespace BugTraq.Api.Commands
             }
             protected override async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var existingBug = await _context.Bugs.FindAsync(request.Id);
+                var existingBug = await _context.Bugs.FindAsync(request.BugId);
 
                 if (existingBug != null)
                 {

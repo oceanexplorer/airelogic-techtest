@@ -8,6 +8,9 @@
 </template>
 
 <script>
+    /* eslint-disable no-console */
+    /* eslint-disable no-unused-vars */
+    /* eslint-disable no-debugger */
     export default {
         data() {
             return {
@@ -21,7 +24,10 @@
         watch: {
             selectedId(val) {
                 this.$emit('changed', val);
-            }
+            },
+            value(val) {                
+                this.selectedId = val;
+            },
         },
         props: ['value'],
         methods: {

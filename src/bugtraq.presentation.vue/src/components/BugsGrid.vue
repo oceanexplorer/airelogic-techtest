@@ -12,9 +12,7 @@
         </b-button-group>
       </div>
       <div class="col-6">
-        <div class="float-right">
-          <slot name="actions"></slot>
-        </div>
+        <add-bug-modal class="float-right pl-2"></add-bug-modal>        
       </div>      
     </div>
     <div class="row" v-if="displayMethod === 'cards'">
@@ -44,6 +42,9 @@
                       </div>  
                       <div class="row">
                         <div class="col text-right">
+                          <a class="cursor-pointer pr-2" href="#" @click="showEditBugModal(ticket.bugId)">
+                            <font-awesome-icon icon="edit" class="text-primary cursor-pointer" />
+                          </a>
                           <a class="cursor-pointer" href="#" @click="showDeleteConfirmationModal(ticket.bugId)">
                             <font-awesome-icon icon="trash" class="text-danger cursor-pointer" />
                           </a>
@@ -63,6 +64,7 @@
         <b-table :items="tickets"></b-table>
       </div>
     </div>
+    <edit-bug-modal class="float-right" :show-button="false" :bugId="idForEdit"></edit-bug-modal>
   </div>  
 </template>
 
@@ -71,11 +73,15 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-debugger */
 import draggable from "vuedraggable";
+import editBugModal from "./EditBugModal";
+import AddBugModal from "./AddBugModal";
 
 export default {
   name: "grid",
   components: {
+      AddBugModal,
     draggable,
+    editBugModal
   },
   computed: {
     dragOptions() {
@@ -101,7 +107,8 @@ export default {
       ticketsByStatus: {},
       deleteConfirmation: {
           result: null
-      }
+      },
+      idForEdit: null
     };
   },
   filters: {
@@ -141,6 +148,10 @@ export default {
         });
         
     },
+    showEditBugModal (id) {
+        this.idForEdit = id;
+        this.$bvModal.show("editBugModal");
+    },
     updateTicket (id, status) {
       this.axios
         .put(`http://localhost:5000/api/bugs/updatestatus/${id}/${status}`)
@@ -153,9 +164,8 @@ export default {
   },
   mounted () {
       
-    this.$root.$on('bug-added', () => {
-        this.getTickets();
-    });
+    this.$root.$on('bug-added', () => { this.getTickets(); });
+    this.$root.$on('bug-updated', () => { this.getTickets(); });  
     
     this.getTickets();
 
