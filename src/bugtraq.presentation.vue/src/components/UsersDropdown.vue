@@ -22,11 +22,11 @@
             this.loadUsers();
         },
         watch: {
-            selectedId(val) {
-                this.$emit('changed', val);
+            selectedId(updatedValue) {
+                this.$emit('input', updatedValue);
             },
-            value(val) {                
-                this.selectedId = val;
+            value(updatedValue) {                
+                this.selectedId = updatedValue;
             },
         },
         props: ['value'],
