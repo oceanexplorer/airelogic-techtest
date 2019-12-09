@@ -32,7 +32,7 @@ namespace BugTraq.Api.Tests.Bugs
             public async Task ShouldReturnSameNumberOfRecordsAsAdded()
             {
                 // Arrange
-                var user = new User { UserId = new Guid("00000000-0000-0000-0000-000000000001"), FirstName = "Sarah", Surname = "Smith"};
+                var user = new User (new Guid("00000000-0000-0000-0000-000000000001"), "Sarah", "Smith");
                 var bugOne = new Bug("This is bug one", "BugOne", "New", user.UserId);
                 var bugTwo = new Bug("This is big two", "BugTwo", "Closed", user.UserId);
                 var getBugsQuery = new GetBugs.Query();
@@ -72,7 +72,7 @@ namespace BugTraq.Api.Tests.Bugs
             public async Task ShouldReturnOnlyOneRecordWithAMatchingId()
             {
                 // Arrange
-                var user = new User { UserId = new Guid("00000000-0000-0000-0000-000000000001"), FirstName = "Sarah", Surname = "Smith"};
+                var user = new User (new Guid("00000000-0000-0000-0000-000000000001"),"Sarah","Smith");
                 var bugOne = new Bug("This is bug one", "BugOne", "New", user.UserId);
                 var bugTwo = new Bug("This is big two", "BugTwo", "Closed", user.UserId);
                 var getBugQuery = new GetBug.Query(1);
