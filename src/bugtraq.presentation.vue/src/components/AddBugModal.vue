@@ -95,20 +95,18 @@
     },
     methods: {
       onSubmit(evt) {
-          /* eslint-disable no-console */
-          console.log("helloooo");
         evt.preventDefault();
         let self = this;
         this.axios
           .post('http://localhost:5000/api/bugs', this.form)
+          .then(function() {
+              self.success = true;
+              self.reset();
+              self.$root.$emit("bug-added");
+          })
           .catch(function () {
             self.errored = true;
-          })
-          .then(function() {
-            self.success = true;
-            self.reset();
-            self.$root.$emit("bug-added");
-          })
+          })          
       },
       modalHidden() {
           this.reset();
