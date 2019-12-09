@@ -34,13 +34,20 @@
             }
         },
         mounted(){
-            let self = this;
-            this.axios
-                .get('http://localhost:5000/api/users')
-                .then(function (result){
-                    self.users = result.data;
-                })
+            this.$root.$on('user-added', () => { this.loadUsers(); });
+            this.loadUsers();
+        },
+        methods: {
+            loadUsers () {
+                let self = this;
+                this.axios
+                    .get('http://localhost:5000/api/users')
+                    .then(function (result){
+                        self.users = result.data;
+                    })
+            }
         }
+        
     }
 </script>
 

@@ -82,10 +82,8 @@
             },
             reset() {
                 // Reset our form values
-                this.form.title = '';
-                this.form.description = '';
-                this.form.status = null;
-                this.form.userId = null;
+                this.form.firstName = '';
+                this.form.surname = '';
 
                 // Trick to reset/clear native browser form validation state
                 this.show = false;

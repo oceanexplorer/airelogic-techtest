@@ -34,7 +34,7 @@ namespace BugTraq.Api.Commands
             }
             protected override async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var existingBug = await _context.Bugs.FindAsync(request.BugId);
+                var existingBug = await _context.Bugs.FindAsync(request.Id);
 
                 if (existingBug != null)
                 {

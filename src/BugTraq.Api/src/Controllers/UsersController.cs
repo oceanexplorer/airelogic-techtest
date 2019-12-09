@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BugTraq.Api.Commands;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BugTraq.Api.Models;
+using MediatR;
 
 namespace BugTraq.Api.Controllers
 {
@@ -14,22 +16,24 @@ namespace BugTraq.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly BugTraqContext _context;
+        private readonly IMediator _mediator;
 
-        public UsersController(BugTraqContext context)
+        public UsersController(BugTraqContext context, IMediator mediator)
         {
             _context = context;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
-            return await _context.User.ToListAsync();
+            return await _context.Users.ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user = await _context.User.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
 
             if (user == null)
             {
@@ -69,24 +73,21 @@ namespace BugTraq.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser([FromForm]User user)
+        public async Task AddUser([FromBody]AddUser.Command user)
         {
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            await _mediator.Send(user);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> DeleteUser(int id)
         {
-            var user = await _context.User.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            _context.User.Remove(user);
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
             return user;
@@ -94,7 +95,7 @@ namespace BugTraq.Api.Controllers
 
         private bool UserExists(Guid id)
         {
-            return _context.User.Any(e => e.UserId == id);
+            return _context.Users.Any(e => e.UserId == id);
         }
     }
 }

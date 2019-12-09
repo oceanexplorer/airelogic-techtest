@@ -20,6 +20,6 @@ namespace BugTraq.Api.Models
             modelBuilder.ApplyConfiguration(new UserEntityConfiguration());
         }
 
-        public DbSet<User> User { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
