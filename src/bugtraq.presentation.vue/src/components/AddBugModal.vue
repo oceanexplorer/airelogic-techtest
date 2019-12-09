@@ -59,12 +59,7 @@
             label-for="user"
             label-cols="3"
           >
-            <b-form-select
-              id="user"
-              v-model="form.userId"
-              :options="users"
-              required
-            ></b-form-select>
+            <users-dropdown v-model="form.userId"></users-dropdown>
           </b-form-group>
           <div class="float-right">
             <b-button type="reset" variant="danger" class="mr-2" @click.prevent="close">Close</b-button>
@@ -77,7 +72,15 @@
 </template>
 
 <script>
+    /* eslint-disable no-console */
+    /* eslint-disable no-unused-vars */
+    /* eslint-disable no-debugger */
+    import usersDropdown from "./UsersDropdown";
+    
     export default {
+      components: {
+          usersDropdown
+      },
       data() {
         return {
           form: {
@@ -86,9 +89,9 @@
             status: null,
             userId: null
           },
-          statuses: [{ text: 'Select One', value: null }, 'New', 'Active', 'Resolved', 'Closed'],
+          statuses: [{ text: 'Select One...', value: null }, 'New', 'Active', 'Resolved', 'Closed'],
           show: true,
-          users: [{ text: 'Select One', value: null }, { text: 'Sarah Smith', value: "00000000-0000-0000-0000-000000000001" }],
+          users: [{ text: 'Select One...', value: null }],
           errored: false,
           success: false
         }
@@ -131,7 +134,7 @@
       },
       close () {
         this.$bvModal.hide("addBugModal");        
-      }
+      }      
     }
   }
 </script>
