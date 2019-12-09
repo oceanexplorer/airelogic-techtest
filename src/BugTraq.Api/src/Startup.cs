@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using BugTraq.Api.Models;
 using MediatR;
+using Nyami.AspNetCore.VueCliServices;
 
 namespace BugTraq.Api
 {
@@ -50,11 +51,21 @@ namespace BugTraq.Api
             
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseCors(builder => builder.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(builder => builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapHealthChecks("/health");
+            });
+            
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseVueCliServer("serve");
+                }
             });
 
         }
