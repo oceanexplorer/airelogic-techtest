@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using BugTraq.Api.Models;
@@ -13,7 +14,7 @@ namespace BugTraq.Api.Commands
         {
             public string Title { get; set;}
             public string Description { get; set;}
-            public int UserId { get; set;}
+            public Guid UserId { get; set;}
             public string Status { get; set; }
         }
 

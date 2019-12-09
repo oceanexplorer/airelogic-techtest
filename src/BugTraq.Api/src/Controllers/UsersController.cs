@@ -40,7 +40,7 @@ namespace BugTraq.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(Guid id, User user)
         {
             if (id != user.UserId)
             {
@@ -92,7 +92,7 @@ namespace BugTraq.Api.Controllers
             return user;
         }
 
-        private bool UserExists(int id)
+        private bool UserExists(Guid id)
         {
             return _context.User.Any(e => e.UserId == id);
         }

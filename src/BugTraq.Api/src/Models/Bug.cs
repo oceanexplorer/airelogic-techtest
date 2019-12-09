@@ -10,7 +10,7 @@ namespace BugTraq.Api.Models
             CreatedDate = DateTime.UtcNow;
         }
 
-        public Bug(string title, string description, string status, int userId)
+        public Bug(string title, string description, string status, Guid userId)
         {
             Title = title;
             Description = description;
@@ -25,7 +25,7 @@ namespace BugTraq.Api.Models
         public DateTime CreatedDate { get; set; }
         public string Status { get; set; } 
 
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public virtual User User { get; set; }
     }
 }

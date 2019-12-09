@@ -32,7 +32,7 @@ namespace BugTraq.Api.Tests.Bugs
             public async Task ShouldReturnSameNumberOfRecordsAsAdded()
             {
                 // Arrange
-                var user = new User {FirstName = "Sarah", Surname = "Smith"};
+                var user = new User { UserId = new Guid("00000000-0000-0000-0000-000000000001"), FirstName = "Sarah", Surname = "Smith"};
                 var bugOne = new Bug("This is bug one", "BugOne", "New", user.UserId);
                 var bugTwo = new Bug("This is big two", "BugTwo", "Closed", user.UserId);
                 var getBugsQuery = new GetBugs.Query();
@@ -72,13 +72,14 @@ namespace BugTraq.Api.Tests.Bugs
             public async Task ShouldReturnOnlyOneRecordWithAMatchingId()
             {
                 // Arrange
-                var user = new User {FirstName = "Sarah", Surname = "Smith"};
+                var user = new User { UserId = new Guid("00000000-0000-0000-0000-000000000001"), FirstName = "Sarah", Surname = "Smith"};
                 var bugOne = new Bug("This is bug one", "BugOne", "New", user.UserId);
                 var bugTwo = new Bug("This is big two", "BugTwo", "Closed", user.UserId);
-                var getBugQuery = new GetBug.Query(bugOne.BugId);
+                var getBugQuery = new GetBug.Query(1);
                 
                 await using (var dbContext = new BugTraqContext(_inMemoryDbOptions))
                 {
+                    dbContext.Add(user);
                     dbContext.Add(bugOne);
                     dbContext.Add(bugTwo);
                     dbContext.SaveChanges();
@@ -91,8 +92,7 @@ namespace BugTraq.Api.Tests.Bugs
                         .Handle(getBugQuery, It.IsAny<CancellationToken>());
                     
                     // Assert
-                    bug.Should().BeEquivalentTo(bugOne, "because we passed the id of bug one to the query " +
-                                                        "which should return the record with a matching id");
+                    bug.Title.Should().Be(bugOne.Title, "the retrieved bug should be the same as the one we saved.");
                 }
             }
         }

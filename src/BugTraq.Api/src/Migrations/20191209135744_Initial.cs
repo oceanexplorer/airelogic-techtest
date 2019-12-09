@@ -11,8 +11,7 @@ namespace BugTraq.Api.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     Surname = table.Column<string>(maxLength: 100, nullable: false)
                 },
@@ -31,7 +30,7 @@ namespace BugTraq.Api.Migrations
                     Description = table.Column<string>(maxLength: 300, nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getutcdate()"),
                     Status = table.Column<string>(maxLength: 20, nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,26 +42,6 @@ namespace BugTraq.Api.Migrations
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "UserId", "FirstName", "Surname" },
-                values: new object[] { 1, "Jeff", "Simms" });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "UserId", "FirstName", "Surname" },
-                values: new object[] { 2, "Sally", "Prescott" });
-
-            migrationBuilder.InsertData(
-                table: "Bugs",
-                columns: new[] { "BugId", "CreatedDate", "Description", "Status", "Title", "UserId" },
-                values: new object[] { 1, new DateTime(2019, 2, 14, 1, 32, 24, 550, DateTimeKind.Local).AddTicks(4160), "Change the logo on the website", "Open", "Add new company logo to website", 1 });
-
-            migrationBuilder.InsertData(
-                table: "Bugs",
-                columns: new[] { "BugId", "CreatedDate", "Description", "Status", "Title", "UserId" },
-                values: new object[] { 2, new DateTime(2019, 2, 14, 1, 32, 24, 555, DateTimeKind.Local).AddTicks(1700), "Create an automated backup process", "Open", "Create a backup process", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bugs_UserId",

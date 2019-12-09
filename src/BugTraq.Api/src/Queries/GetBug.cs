@@ -31,7 +31,7 @@ namespace BugTraq.Api.Queries
             public string Description { get; set; }
             public DateTime CreatedDate { get; set; }
             public string Status { get; set; }
-            public int UserId { get; set; }
+            public Guid UserId { get; set; }
             public string UserFirstName { get; set; }
             public string UserSurname { get; set; }
         }
@@ -49,7 +49,8 @@ namespace BugTraq.Api.Queries
             
             public async Task<Result> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _mapper
+                var foo = _context.Bugs.ToList();
+;                return await _mapper
                     .ProjectTo<Result>(_context.Bugs.Include(e => e.User))
                     .Where(b => b.BugId == request.Id)
                     .FirstOrDefaultAsync(cancellationToken);

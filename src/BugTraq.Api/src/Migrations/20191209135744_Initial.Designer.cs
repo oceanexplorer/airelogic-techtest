@@ -9,95 +9,70 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTraq.Api.Migrations
 {
     [DbContext(typeof(BugTraqContext))]
-    [Migration("20190214013225_Initial")]
+    [Migration("20191209135744_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
+                .HasAnnotation("ProductVersion", "3.1.0");
 
             modelBuilder.Entity("BugTraq.Api.Models.Bug", b =>
                 {
                     b.Property<int>("BugId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
                         .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasColumnType("TEXT")
                         .HasMaxLength(300);
 
                     b.Property<string>("Status")
                         .IsRequired()
+                        .HasColumnType("TEXT")
                         .HasMaxLength(20);
 
                     b.Property<string>("Title")
                         .IsRequired()
+                        .HasColumnType("TEXT")
                         .HasMaxLength(75);
 
-                    b.Property<int>("UserId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("BugId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Bugs");
-
-                    b.HasData(
-                        new
-                        {
-                            BugId = 1,
-                            CreatedDate = new DateTime(2019, 2, 14, 1, 32, 24, 550, DateTimeKind.Local).AddTicks(4160),
-                            Description = "Change the logo on the website",
-                            Status = "Open",
-                            Title = "Add new company logo to website",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            BugId = 2,
-                            CreatedDate = new DateTime(2019, 2, 14, 1, 32, 24, 555, DateTimeKind.Local).AddTicks(1700),
-                            Description = "Create an automated backup process",
-                            Status = "Open",
-                            Title = "Create a backup process",
-                            UserId = 1
-                        });
                 });
 
             modelBuilder.Entity("BugTraq.Api.Models.User", b =>
                 {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
+                        .HasColumnType("TEXT")
                         .HasMaxLength(50);
 
                     b.Property<string>("Surname")
                         .IsRequired()
+                        .HasColumnType("TEXT")
                         .HasMaxLength(100);
 
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            FirstName = "Jeff",
-                            Surname = "Simms"
-                        },
-                        new
-                        {
-                            UserId = 2,
-                            FirstName = "Sally",
-                            Surname = "Prescott"
-                        });
                 });
 
             modelBuilder.Entity("BugTraq.Api.Models.Bug", b =>
@@ -105,7 +80,8 @@ namespace BugTraq.Api.Migrations
                     b.HasOne("BugTraq.Api.Models.User", "User")
                         .WithMany("Bugs")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
