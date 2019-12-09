@@ -1,10 +1,10 @@
 <template>
-  <b-form-select
-          id="user"
-          :options="users"
-          required
-          v-model="selectedId"
-  ></b-form-select>
+    <b-form-select
+            :options="users"
+            id="user"
+            required
+            v-model="selectedId"
+    ></b-form-select>
 </template>
 
 <script>
@@ -25,7 +25,7 @@
             selectedId(updatedValue) {
                 this.$emit('input', updatedValue);
             },
-            value(updatedValue) {                
+            value(updatedValue) {
                 this.selectedId = updatedValue;
             },
         },
@@ -35,7 +35,7 @@
                 let self = this;
                 this.axios
                     .get('http://localhost:5000/api/users')
-                    .then(function(result){
+                    .then(function (result) {
                         result.data.forEach(user => {
                             let userOption = self.convertUserToOption(user);
                             self.users.push(userOption);
@@ -43,8 +43,8 @@
                     })
             },
             convertUserToOption(user) {
-                return{ text: `${ user.firstName } ${ user.surname }`, value: user.userId};
-            }            
-        }        
+                return {text: `${user.firstName} ${user.surname}`, value: user.userId};
+            }
+        }
     }
 </script>

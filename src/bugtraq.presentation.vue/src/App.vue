@@ -1,19 +1,19 @@
 <template>
-  <div id="app">
-    <TheNavbar />
-    <div class="container-fluid">      
-      <router-view/>
+    <div id="app">
+        <TheNavbar/>
+        <div class="container-fluid">
+            <router-view/>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-  import TheNavbar from './components/TheNavbar'
-  
-  export default {
-    name: 'app',
-    components: {
-        TheNavbar
+    import TheNavbar from './components/TheNavbar'
+
+    export default {
+        name: 'app',
+        components: {
+            TheNavbar
+        }
     }
-  }
 </script>

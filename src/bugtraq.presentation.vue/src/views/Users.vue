@@ -1,13 +1,13 @@
 <template>
-  <users-table />
+    <users-table/>
 </template>
 
 <script>
-  import UsersTable from "../components/UsersTable";
-  
-  export default {
-    components: {
-        UsersTable
-    }    
-  }
+    import UsersTable from "../components/UsersTable";
+
+    export default {
+        components: {
+            UsersTable
+        }
+    }
 </script>
