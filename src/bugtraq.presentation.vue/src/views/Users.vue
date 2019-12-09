@@ -1,5 +1,13 @@
 <template>
-  <div class="about">
-    <h1>This is the users page</h1>
-  </div>
+  <users-table />
 </template>
+
+<script>
+  import UsersTable from "../components/UsersTable";
+  
+  export default {
+    components: {
+        UsersTable
+    }    
+  }
+</script>
