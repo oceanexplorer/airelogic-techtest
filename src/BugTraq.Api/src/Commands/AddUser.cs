@@ -16,7 +16,7 @@ namespace BugTraq.Api.Commands
             public string Surname { get; set;}
         }
 
-        public class Handler : AsyncRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Unit>
         {
             private readonly BugTraqContext _context;
 
@@ -24,12 +24,14 @@ namespace BugTraq.Api.Commands
             {
                 _context = context;
             }
-            protected override async Task Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = new User(request.FirstName, request.Surname);
                 _context.Users.Add(user);
                 
                 await _context.SaveChangesAsync(cancellationToken);
+
+                return new Unit();
             }
         }
     }

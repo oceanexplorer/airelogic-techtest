@@ -1,16 +1,16 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using BugTraq.Api.Models;
-using Moq;
-using Xunit;
-using BugTraq.Api.Queries;
-using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using BugTraq.Api.Mappers;
+using BugTraq.Api.Models;
+using BugTraq.Api.Queries;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
+using Moq;
+using Xunit;
 
-namespace BugTraq.Api.Tests.Bugs
+namespace BugTraq.Api.Tests.Queries.Bugs
 {
     public class QueryFacts
     {
@@ -22,12 +22,15 @@ namespace BugTraq.Api.Tests.Bugs
            _inMemoryDbOptions = new DbContextOptionsBuilder<BugTraqContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
-           
-           _mapper = new MapperConfiguration(cfg => { cfg.AddProfile(new BugProfile()); }).CreateMapper();
         }
         
         public class GetBugsQuery : QueryFacts
         {
+            public GetBugsQuery()
+            {
+                _mapper = new MapperConfiguration(cfg => { cfg.AddProfile(new BugProfile()); }).CreateMapper();
+            }
+            
             [Fact]
             public async Task ShouldReturnSameNumberOfRecordsAsAdded()
             {
@@ -61,10 +64,6 @@ namespace BugTraq.Api.Tests.Bugs
         {
             public GetBugQuery()
             {
-                _inMemoryDbOptions = new DbContextOptionsBuilder<BugTraqContext>()
-                    .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-                    .Options;
-                
                 _mapper = new MapperConfiguration(cfg => { cfg.AddProfile(new BugProfile()); }).CreateMapper();
             }
         
