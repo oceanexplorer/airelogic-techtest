@@ -89,7 +89,13 @@
             status: null,
             userId: null
           },
-          statuses: [{ text: 'Select One...', value: null }, 'New', 'Active', 'Resolved', 'Closed'],
+            statuses: [
+                { text: 'Select One...', value: null },
+                { text: 'New', value: 'new' },
+                { text: 'Active', value: 'active' },
+                { text: 'Resolved', value: 'resolved' },
+                { text: 'Closed', value: 'closed' }
+            ],
           show: true,
           users: [{ text: 'Select One...', value: null }],
           errored: false,
