@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using BugTraq.Api.Models;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BugTraq.Api.Queries
 {
+    public class GetBugValidator : AbstractValidator<GetBug.Query>
+    {
+        public GetBugValidator()
+        {
+            RuleFor(e => e.Id).NotEmpty();
+        }
+    }
+    
     public class GetBug
     {
         public class Query : IRequest<Result>

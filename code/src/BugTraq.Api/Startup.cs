@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using BugTraq.Api.Models;
 using MediatR;
+using MediatR.Extensions.FluentValidation.AspNetCore;
 using Nyami.AspNetCore.VueCliServices;
 
 namespace BugTraq.Api
@@ -24,11 +25,13 @@ namespace BugTraq.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var executingAssembly = Assembly.GetExecutingAssembly();
             services.AddControllers();
             services.AddHealthChecks();
             services.AddCors();
-            services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddMediatR(executingAssembly);
+            services.AddFluentValidation(new [] { executingAssembly }); ;
+            services.AddAutoMapper(executingAssembly);
 
             var mapperConfiguration = new MapperConfiguration(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly()));
 

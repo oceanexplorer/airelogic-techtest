@@ -1,12 +1,24 @@
 using System.Threading;
 using System.Threading.Tasks;
 using BugTraq.Api.Models;
+using FluentValidation;
 using MediatR;
+
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace BugTraq.Api.Commands
 {
     public class DeleteBug
     {
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator()
+            {
+                RuleFor(e => e.Id).NotEmpty();    
+            }
+        }
+        
         public class Command : IRequest
         {
             public int Id { get; }

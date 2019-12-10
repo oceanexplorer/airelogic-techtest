@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using BugTraq.Api.Models;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,18 @@ namespace BugTraq.Api.Commands
 {
     public class UpdateBug
     {
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator()
+            {
+                RuleFor(e => e.BugId).NotEmpty();
+                RuleFor(e => e.Title).NotEmpty();
+                RuleFor(e => e.Description).NotEmpty();
+                RuleFor(e => e.UserId).NotEmpty();
+                RuleFor(e => e.Status).NotEmpty();
+            }
+        }
+        
         public class Command : IRequest
         {
             public int BugId { get; set; }

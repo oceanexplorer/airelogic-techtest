@@ -1,6 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using BugTraq.Api.Models;
+using BugTraq.Api.Queries;
+using FluentValidation;
 using MediatR;
 
 // ReSharper disable UnusedMember.Global
@@ -10,6 +12,15 @@ namespace BugTraq.Api.Commands
 {
     public class AddUser
     {
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator()
+            {
+                RuleFor(e => e.FirstName).NotEmpty();
+                RuleFor(e => e.Surname).NotEmpty();
+            }
+        }
+        
         public class Command : IRequest
         {
             public string FirstName { get; set;}

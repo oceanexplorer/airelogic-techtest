@@ -1,12 +1,22 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using BugTraq.Api.Models;
+using FluentValidation;
 using MediatR;
 
 namespace BugTraq.Api.Commands
 {
     public class UpdateBugStatus
     {
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator()
+            {
+                RuleFor(e => e.Id).NotEmpty();
+                RuleFor(e => e.Status).NotEmpty();
+            }
+        }
+        
         public class Command : IRequest
         {
             public int Id { get; set; }
