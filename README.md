@@ -1,36 +1,18 @@
 # BugTraq
 
 ### Installation
-If you don't already have then install node, npm and dotnet core
+If you don't already have then install node, yarn and dotnet core
 
 https://blog.teamtreehouse.com/install-node-js-npm-windows
-
+https://yarnpkg.com/lang/en/docs/install/
 https://dotnet.microsoft.com/download
+
 ```sh
-$ cd [CloneFolder]/src/buqtraq.api
+$ cd [CloneFolder]/code/src/buqtraq.api/ClientApp
+$ yarn install
+$ cd ..
 $ dotnet run
 ```
-In another console/terminal window
 
-```sh
-$ cd [CloneFolder]/src/bugtraq.presentation
-$ npm install
-$ npm install local-web-server -g
-$ ws -p 3000
-```
-In a browser go to ```http://localhost:3000``` and you should be presented with the BugTraq main page
-
-### Add a bug
-
-![Add A Bug](screenshots/new.jpg?raw=true "Add A Bug")
-
-![Add A Bug](screenshots/newdetails.png?raw=true "Add A Bug")
-
-
-### Edit/delete a bug
-
-![Edit or delete](screenshots/editdelete.png?raw=true "Edit or delete a bug")
-
-### Add users
-
-![Add Users](screenshots/users.png?raw=true "Add Users")
+The application will then start up and when ready present you with a 
+URL to the site, clck or copy and paste this URL into your browser

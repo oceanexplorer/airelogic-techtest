@@ -8,6 +8,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTraq.Api", "src\BugTraq.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTraq.Api.Tests", "tests\BugTraq.Api.Tests\BugTraq.Api.Tests.csproj", "{6DBBCCB3-F897-424B-AEA8-59414C8222FF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{C979578B-0EC8-4C05-974A-B6A0B4BE716C}"
+ProjectSection(SolutionItems) = preProject
+	..\screenshots\editdelete.png = ..\screenshots\editdelete.png
+	..\screenshots\new.jpg = ..\screenshots\new.jpg
+	..\screenshots\newdetails.png = ..\screenshots\newdetails.png
+	..\screenshots\users.png = ..\screenshots\users.png
+	..\README.md = ..\README.md
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
