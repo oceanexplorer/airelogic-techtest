@@ -62,7 +62,7 @@
         </div>
         <div class="row" v-if="displayMethod === 'table'">
             <div class="col">
-                <b-table :items="tickets"></b-table>
+                <b-table :items="combineTickets" :fields="fields"></b-table>
             </div>
         </div>
         <edit-bug-modal :bugId="idForEdit" :show-button="false" class="float-right"></edit-bug-modal>
@@ -87,6 +87,15 @@
                     animation: 150,
                     group: "description"
                 };
+            },
+            combineTickets(){
+                let tickets = [];
+                let self = this;
+                Object.entries(this.statuses).forEach(entry => {
+                    let status = entry[0];
+                    tickets = tickets.concat(self.statuses[status]);
+                });
+                return tickets;
             }
         },
         data: function () {
@@ -106,7 +115,27 @@
                 deleteConfirmation: {
                     result: null
                 },
-                idForEdit: null
+                idForEdit: null,
+                fields: [
+                    {
+                        key: 'title',
+                        sortable: true
+                    },
+                    {
+                        key: 'status',
+                        sortable: true
+                    },
+                    {
+                        key: 'userFirstName',
+                        label: 'First Name',
+                        sortable: true
+                    },
+                    {
+                        key: 'userSurname',
+                        label: 'Surname',
+                        sortable: true
+                    }
+                ],
             };
         },
         filters: {
