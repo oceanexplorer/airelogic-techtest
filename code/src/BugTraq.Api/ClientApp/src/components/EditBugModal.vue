@@ -145,8 +145,6 @@
                         self.form.description = ticket.description;
                         self.form.status = ticket.status;
                         self.form.userId = ticket.userId;
-
-                        console.log(ticket);
                     })
                     .finally(function () {
                         self.isLoading = false;
