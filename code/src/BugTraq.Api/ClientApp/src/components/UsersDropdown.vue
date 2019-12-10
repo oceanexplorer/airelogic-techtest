@@ -8,9 +8,6 @@
 </template>
 
 <script>
-    /* eslint-disable no-console */
-    /* eslint-disable no-unused-vars */
-    /* eslint-disable no-debugger */
     export default {
         data() {
             return {

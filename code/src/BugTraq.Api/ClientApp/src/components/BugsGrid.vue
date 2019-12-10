@@ -70,9 +70,6 @@
 </template>
 
 <script>
-    /* eslint-disable no-console */
-    /* eslint-disable no-unused-vars */
-    /* eslint-disable no-debugger */
     import draggable from "vuedraggable";
     import editBugModal from "./EditBugModal";
     import AddBugModal from "./AddBugModal";
