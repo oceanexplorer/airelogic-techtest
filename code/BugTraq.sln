@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{45FCB926-6D97-46EC-97B6-CFF245883448}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4E429AEE-D971-4764-9A79-8F71ABFC97B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTraq.Api", "src\BugTraq.Api\BugTraq.Api.csproj", "{B9ED518B-EA43-4254-8AD4-AB378C0E27B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTraq.Api.Tests", "tests\BugTraq.Api.Tests\BugTraq.Api.Tests.csproj", "{6DBBCCB3-F897-424B-AEA8-59414C8222FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B9ED518B-EA43-4254-8AD4-AB378C0E27B1} = {45FCB926-6D97-46EC-97B6-CFF245883448}
+		{6DBBCCB3-F897-424B-AEA8-59414C8222FF} = {4E429AEE-D971-4764-9A79-8F71ABFC97B3}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9ED518B-EA43-4254-8AD4-AB378C0E27B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9ED518B-EA43-4254-8AD4-AB378C0E27B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9ED518B-EA43-4254-8AD4-AB378C0E27B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9ED518B-EA43-4254-8AD4-AB378C0E27B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DBBCCB3-F897-424B-AEA8-59414C8222FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DBBCCB3-F897-424B-AEA8-59414C8222FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DBBCCB3-F897-424B-AEA8-59414C8222FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DBBCCB3-F897-424B-AEA8-59414C8222FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
